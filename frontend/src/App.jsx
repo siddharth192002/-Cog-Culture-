@@ -122,8 +122,18 @@ function App() {
         ) : (
           <div className="results-container" style={{ textAlign: 'left' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-              <h2 style={{ margin: 0 }}>Verification Report</h2>
-              <button className="btn-primary" onClick={() => setResults([])}>Verify Another</button>
+              <div>
+                <h2 style={{ margin: 0 }}>Verification Report</h2>
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                  <div className="status-badge status-verified">Verified: {results.filter(r => r.status === 'Verified').length}</div>
+                  <div className="status-badge status-inaccurate">Inaccurate: {results.filter(r => r.status === 'Inaccurate').length}</div>
+                  <div className="status-badge status-false">False: {results.filter(r => r.status === 'False').length}</div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <button className="btn-primary" style={{ background: 'rgba(255,255,255,0.1)' }} onClick={() => window.print()}>Download Report</button>
+                <button className="btn-primary" onClick={() => setResults([])}>Verify Another</button>
+              </div>
             </div>
 
             <table>
