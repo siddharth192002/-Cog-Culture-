@@ -106,11 +106,12 @@ app.post('/api/verify', upload.single('file'), async (req, res) => {
         
         for (let i = 0; i < textChunks.length; i++) {
             const extractionPrompt = `
-                Extract all verifiable claims from this text fragment.
-                Include: statistics, dates, medical/health claims, scientific facts, and specific events.
+                Extract all verifiable claims EXACTLY as they are stated in the text fragment.
+                Do NOT correct the claims; extract them even if they are obviously false or outdated.
+                Include: statistics, health claims, scientific statements, and factual assertions.
                 Return ONLY a JSON array of objects with keys: "claim", "context".
                 If no claims are found, return [].
-                Text Fragment (${i+1}/${textChunks.length}): ${textChunks[i]}
+                Text Fragment: ${textChunks[i]}
             `;
             
             try {
