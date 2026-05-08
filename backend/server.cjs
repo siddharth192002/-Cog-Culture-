@@ -142,20 +142,25 @@ app.post('/api/verify', upload.single('file'), async (req, res) => {
             const verificationPrompt = `
                 Claim: ${c.claim}
                 Context from Document: ${c.context}
-                Live Search Results: ${searchContext}
+                Live Search Results: ${searchContext || "NO SEARCH RESULTS FOUND"}
 
-                You are a rigorous Fact-Checker. Compare the Claim against the Live Search Results.
+                You are a strict, skeptical Fact-Checker. 
                 
-                Rules for "status":
-                - "Verified": The claim is fully supported by the search results.
-                - "Inaccurate": The claim has some truth but contains wrong numbers, outdated stats, or slight exaggerations.
-                - "False": The claim is explicitly contradicted by search results, is a known myth, or has NO supporting evidence in the results.
+                CRITICAL INSTRUCTIONS:
+                1. If the "Live Search Results" are empty, irrelevant, or do not contain the specific fact/stat, you MUST return "False".
+                2. Do NOT hallucinate. If you can't find the exact claim in the search data, it is NOT verified.
+                3. "False" is the default for any claim that cannot be proven by the provided search results.
+
+                Status Definitions:
+                - "Verified": Claim is 100% matched by search results.
+                - "Inaccurate": Claim is partly true but has wrong numbers, dates, or outdated info.
+                - "False": Claim is contradicted OR NO supporting evidence was found.
 
                 Return ONLY a JSON object:
                 {
                   "status": "Verified" | "Inaccurate" | "False",
-                  "evidence": "Briefly explain WHY (max 25 words)",
-                  "realFact": "The exact corrected data (if status is Inaccurate/False)"
+                  "evidence": "Briefly explain why (max 20 words). If no data was found, say 'No evidence found in web search.'",
+                  "realFact": "The exact corrected data (if Inaccurate/False), else N/A"
                 }
             `;
 
