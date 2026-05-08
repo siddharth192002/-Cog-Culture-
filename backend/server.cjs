@@ -179,8 +179,8 @@ app.post('/api/verify', upload.single('file'), async (req, res) => {
 const frontendPath = path.join(__dirname, '../frontend/dist');
 app.use(express.static(frontendPath));
 
-// Catch-all route to serve Frontend index.html (Express 5 syntax)
-app.get('/*', (req, res) => {
+// Catch-all route to serve Frontend index.html
+app.get('*', (req, res) => {
     res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
