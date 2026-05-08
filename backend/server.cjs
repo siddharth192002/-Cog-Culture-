@@ -144,11 +144,19 @@ app.post('/api/verify', upload.single('file'), async (req, res) => {
                 Context from Document: ${c.context}
                 Live Search Results: ${searchContext}
 
-                Analyze if the claim matches the live search data.
-                Return ONLY a JSON object with:
-                "status": "Verified" | "Inaccurate" | "False",
-                "evidence": "Short summary of search findings (max 30 words)",
-                "realFact": "The correct fact if inaccurate, else same as claim"
+                You are a rigorous Fact-Checker. Compare the Claim against the Live Search Results.
+                
+                Rules for "status":
+                - "Verified": The claim is fully supported by the search results.
+                - "Inaccurate": The claim has some truth but contains wrong numbers, outdated stats, or slight exaggerations.
+                - "False": The claim is explicitly contradicted by search results, is a known myth, or has NO supporting evidence in the results.
+
+                Return ONLY a JSON object:
+                {
+                  "status": "Verified" | "Inaccurate" | "False",
+                  "evidence": "Briefly explain WHY (max 25 words)",
+                  "realFact": "The exact corrected data (if status is Inaccurate/False)"
+                }
             `;
 
             try {
