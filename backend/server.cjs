@@ -184,7 +184,8 @@ app.post('/api/verify', upload.single('file'), async (req, res) => {
 });
 
 // Serve Frontend Static Files
-const frontendPath = path.join(__dirname, '../frontend/dist');
+const frontendPath = path.resolve(process.cwd(), 'frontend', 'dist');
+console.log('Serving frontend from:', frontendPath);
 app.use(express.static(frontendPath));
 
 // Catch-all route to serve Frontend index.html
