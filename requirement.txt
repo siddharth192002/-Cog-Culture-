@@ -1,0 +1,10 @@
+Node.js >= 18.0.0
+GROQ_API_KEY
+TAVILY_API_KEY
+@google/generative-ai
+axios
+cors
+dotenv
+express
+multer
+pdf-parse-new
