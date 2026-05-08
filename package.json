@@ -1,0 +1,13 @@
+{
+  "name": "factcheck-agent-monolith",
+  "version": "1.0.0",
+  "description": "Monolith deployment configuration for Fact-Check Agent",
+  "main": "backend/server.cjs",
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "node backend/server.cjs"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
