@@ -97,6 +97,80 @@ td {
 td:first-child { border-left: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px 0 0 12px; }
 td:last-child { border-right: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0 12px 12px 0; }
 
+.verification-card {
+  display: flex;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease;
+  text-align: left;
+}
+
+.verification-card:hover {
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.card-sidebar {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.card-content {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+.card-footer {
+  padding: 0.75rem 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Status Specific Styles */
+.card-verified { border-left: 6px solid #22c55e; }
+.card-verified .card-sidebar { color: #22c55e; background: rgba(34, 197, 94, 0.05); }
+
+.card-inaccurate { border-left: 6px solid #f59e0b; }
+.card-inaccurate .card-sidebar { color: #f59e0b; background: rgba(245, 158, 11, 0.05); }
+
+.card-false { border-left: 6px solid #ef4444; }
+.card-false .card-sidebar { color: #ef4444; background: rgba(239, 68, 68, 0.05); }
+
+.claim-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.evidence-text {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.real-fact-text {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #4ade80;
+  font-weight: 500;
+}
+
 .btn-primary {
   background: linear-gradient(135deg, #7c3aed, #4f46e5);
   color: white;
@@ -111,4 +185,11 @@ td:last-child { border-right: 1px solid rgba(255, 255, 255, 0.05); border-radius
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+}
+
+@media print {
+  .btn-primary { display: none; }
+  body { background: white; color: black; }
+  .glass-panel { background: white; color: black; border: none; box-shadow: none; }
+  .verification-card { border: 1px solid #eee; break-inside: avoid; }
 }

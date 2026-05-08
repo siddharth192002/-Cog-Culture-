@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
-import { ShieldCheck, FileUp, AlertCircle, CheckCircle2, Search, Loader2 } from 'lucide-react';
+import { ShieldCheck, FileUp, AlertCircle, CheckCircle2, Search, Loader2, XCircle, Info } from 'lucide-react';
 
 function App() {
   const [file, setFile] = useState(null);
@@ -136,39 +136,34 @@ function App() {
               </div>
             </div>
 
-            <table>
-              <thead>
-                <tr>
-                  <th>CLAIM</th>
-                  <th>LIVE EVIDENCE</th>
-                  <th>STATUS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {results.map((item, idx) => (
-                  <tr key={idx}>
-                    <td style={{ width: '40%' }}>
-                      <p style={{ margin: 0, fontWeight: 500 }}>{item.claim}</p>
-                      <small style={{ color: 'rgba(255,255,255,0.4)' }}>Context: {item.context}</small>
-                    </td>
-                    <td>
-                      <div style={{ display: 'flex', alignItems: 'start', gap: '0.5rem' }}>
-                        <Search size={16} style={{ marginTop: '3px', color: '#7c3aed' }} />
-                        <div>
-                          <p style={{ margin: 0, fontSize: '0.875rem' }}>{item.evidence}</p>
-                          <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.875rem', color: '#4ade80' }}>Real Fact: {item.realFact}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td style={{ width: '120px' }}>
-                      <span className={`status-badge status-${item.status.toLowerCase()}`}>
-                        {item.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div style={{ marginTop: '2rem' }}>
+              {results.map((item, idx) => (
+                <div key={idx} className={`verification-card card-${item.status?.toLowerCase()}`}>
+                  <div className="card-sidebar">
+                    {item.status === 'Verified' && <CheckCircle2 size={28} />}
+                    {item.status === 'Inaccurate' && <AlertCircle size={28} />}
+                    {item.status === 'False' && <XCircle size={28} />}
+                    {item.status === 'Unknown' && <Info size={28} />}
+                    <span style={{ marginTop: '0.5rem' }}>{item.status}</span>
+                  </div>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div className="card-content">
+                      <p className="claim-text">{item.claim}</p>
+                      <p className="evidence-text">{item.evidence}</p>
+                      {item.realFact && item.realFact !== 'N/A' && (
+                        <p className="real-fact-text">
+                          <span style={{ color: 'rgba(255,255,255,0.4)', marginRight: '0.5rem' }}>Real Fact:</span>
+                          {item.realFact}
+                        </p>
+                      )}
+                    </div>
+                    <div className="card-footer">
+                      Source: {item.context}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </main>

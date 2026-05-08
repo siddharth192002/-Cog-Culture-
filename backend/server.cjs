@@ -106,7 +106,8 @@ app.post('/api/verify', upload.single('file'), async (req, res) => {
         
         for (let i = 0; i < textChunks.length; i++) {
             const extractionPrompt = `
-                Extract verifiable claims (stats, dates, financial figures) from this text fragment.
+                Extract all verifiable claims from this text fragment.
+                Include: statistics, dates, medical/health claims, scientific facts, and specific events.
                 Return ONLY a JSON array of objects with keys: "claim", "context".
                 If no claims are found, return [].
                 Text Fragment (${i+1}/${textChunks.length}): ${textChunks[i]}
@@ -146,20 +147,15 @@ app.post('/api/verify', upload.single('file'), async (req, res) => {
 
                 You are a strict, skeptical Fact-Checker. 
                 
-                CRITICAL INSTRUCTIONS:
-                1. If the "Live Search Results" are empty, irrelevant, or do not contain the specific fact/stat, you MUST return "False".
-                2. Do NOT hallucinate. If you can't find the exact claim in the search data, it is NOT verified.
-                3. "False" is the default for any claim that cannot be proven by the provided search results.
-
-                Status Definitions:
-                - "Verified": Claim is 100% matched by search results.
-                - "Inaccurate": Claim is partly true but has wrong numbers, dates, or outdated info.
-                - "False": Claim is contradicted OR NO supporting evidence was found.
+                Rules for Status:
+                - "Verified": The claim is 100% matched and supported by credible search data.
+                - "False": The claim is explicitly contradicted, or is a known myth, OR there is NO supporting evidence found.
+                - "Inaccurate": The claim has some truth but uses wrong numbers, outdated data, or slight exaggerations.
 
                 Return ONLY a JSON object:
                 {
                   "status": "Verified" | "Inaccurate" | "False",
-                  "evidence": "Briefly explain why (max 20 words). If no data was found, say 'No evidence found in web search.'",
+                  "evidence": "Brief explanation (max 20 words). If no data was found, explicitly state 'No evidence found'.",
                   "realFact": "The exact corrected data (if Inaccurate/False), else N/A"
                 }
             `;
