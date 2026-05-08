@@ -14,9 +14,8 @@ const upload = multer({ storage: multer.memoryStorage() });
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Fact-Check Agent API is running on port 3001');
-});
+// Basic Health Check (Optional, but '/*' will handle this)
+// app.get('/', (req, res) => res.send('API Running'));
 
 // Helper for Groq
 async function generateWithGroq(prompt) {
@@ -180,8 +179,8 @@ app.post('/api/verify', upload.single('file'), async (req, res) => {
 const frontendPath = path.join(__dirname, '../frontend/dist');
 app.use(express.static(frontendPath));
 
-// Catch-all route to serve Frontend index.html
-app.get('*', (req, res) => {
+// Catch-all route to serve Frontend index.html (Express 5 syntax)
+app.get('/*', (req, res) => {
     res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
