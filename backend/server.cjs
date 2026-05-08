@@ -49,9 +49,9 @@ async function searchWeb(query) {
         const response = await axios.post('https://api.tavily.com/search', {
             api_key: TAVILY_API_KEY,
             query: query,
-            search_depth: "basic",
+            search_depth: "advanced", // Use advanced search for better consensus
             include_answer: true,
-            max_results: 2
+            max_results: 3 // Get more results to avoid single-source bias
         });
         return response.data;
     } catch (error) {
@@ -145,18 +145,20 @@ app.post('/api/verify', upload.single('file'), async (req, res) => {
                 Context from Document: ${c.context}
                 Live Search Results: ${searchContext || "NO SEARCH RESULTS FOUND"}
 
-                You are a strict, skeptical Fact-Checker. 
+                You are a WORLD-CLASS FACT-CHECKER. 
                 
-                Rules for Status:
-                - "Verified": The claim is 100% matched and supported by credible search data.
-                - "False": The claim is explicitly contradicted, or is a known myth, OR there is NO supporting evidence found.
-                - "Inaccurate": The claim has some truth but uses wrong numbers, outdated data, or slight exaggerations.
+                STRICT VERIFICATION RULES:
+                1. SEARCH FOR CONSENSUS: Do not trust a single search result if it contradicts major scientific bodies (IPCC, NASA, WHO, etc.).
+                2. SKEPTICISM: If a claim is a known controversy (e.g., "planting trees offsets all CO2"), you must check if the scientific consensus supports it.
+                3. "Verified" only if 100% undisputed. 
+                4. "Inaccurate" if it's partially true but exaggerated or uses cherry-picked data.
+                5. "False" if explicitly contradicted by major sources OR if no credible evidence supports it.
 
                 Return ONLY a JSON object:
                 {
                   "status": "Verified" | "Inaccurate" | "False",
-                  "evidence": "Brief explanation (max 20 words). If no data was found, explicitly state 'No evidence found'.",
-                  "realFact": "The exact corrected data (if Inaccurate/False), else N/A"
+                  "evidence": "Mention the source/consensus (max 20 words).",
+                  "realFact": "The consensus-backed truth or corrected data."
                 }
             `;
 
